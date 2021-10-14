@@ -179,7 +179,7 @@ export default class Collapsible extends Component {
       this.state;
     const hasKnownHeight = !measuring && (measured || collapsed);
     const style = hasKnownHeight && {
-      overflow: 'hidden',
+      overflow: 'visible',
       height: height,
     };
     const contentStyle = {};
@@ -215,7 +215,7 @@ export default class Collapsible extends Component {
 
     return (
       <Animated.View
-        style={[style, collapsed && { overflow: 'visible' }]}
+        style={[style, collapsed && { overflow: 'hidden' }]}
         pointerEvents={!enablePointerEvents && collapsed ? 'none' : 'auto'}
       >
         <Animated.View
