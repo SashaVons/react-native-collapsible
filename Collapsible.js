@@ -20,6 +20,7 @@ export default class Collapsible extends Component {
     this.state = {
       measuring: false,
       measured: false,
+      overflow: 'hidden',
       height: new Animated.Value(props.collapsedHeight),
       contentHeight: 0,
       animating: false,
@@ -139,6 +140,9 @@ export default class Collapsible extends Component {
       this._animation.stop();
     }
     this.setState({ animating: true });
+    if (this.props.collapsed) {
+      this.setState({ overflow: 'hidden' });
+    }
     this._animation = Animated.timing(this.state.height, {
       useNativeDriver: false,
       toValue: height ? height : 0,
@@ -149,6 +153,9 @@ export default class Collapsible extends Component {
         return;
       }
       this.setState({ animating: false }, () => {
+        if (!this.props.collapsed) {
+          this.setState({ overflow: 'visible' });
+        }
         if (this.unmounted) {
           return;
         }
@@ -215,7 +222,7 @@ export default class Collapsible extends Component {
 
     return (
       <Animated.View
-        style={[style, collapsed && { overflow: 'hidden' }]}
+        style={[style, { overflow: this.state.overflow }]}
         pointerEvents={!enablePointerEvents && collapsed ? 'none' : 'auto'}
       >
         <Animated.View
